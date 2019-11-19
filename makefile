@@ -11,7 +11,7 @@ all: $(EJS) clear
 pr_afnd: $(OBJECTS)
 	$(CC) $(CFLAGS) -o pr_afnd $(OBJECTS)
 
-pr_afnd.o: pr_afnd.c transforma.h fnd.h
+pr_afnd.o: pr_afnd.c transforma.h afnd.h
 	$(CC) $(CFLAGS) -c pr_afnd.c
 
 afnd_ofus.o: afnd_ofus.c afnd.h
@@ -25,3 +25,6 @@ clear:
 
 clean:
 	rm -rf *.o $(EJS) pr_afnd
+
+runv:
+	valgrind --leak-check=full ./pr_afnd
