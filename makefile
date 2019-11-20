@@ -1,6 +1,6 @@
 ########################################################
 CC=gcc
-CFLAGS= -g
+CFLAGS= -g -Wall -pedantic
 EJS = pr_afnd
 ########################################################
 OBJECTS = pr_afnd.o afnd_ofus.o transforma.o
@@ -15,7 +15,7 @@ pr_afnd.o: pr_afnd.c transforma.h afnd.h
 	$(CC) $(CFLAGS) -c pr_afnd.c
 
 afnd_ofus.o: afnd_ofus.c afnd.h
-	$(CC) $(CFLAGS) -c afnd_ofus.c
+	$(CC) -c afnd_ofus.c
 
 transforma.o: transforma.c transforma.h afnd.h
 	$(CC) $(CFLAGS) -c transforma.c
