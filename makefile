@@ -1,21 +1,35 @@
 ########################################################
 CC=gcc
 CFLAGS= -g -Wall -pedantic
-EJS = pr_afnd
+EJS = main main2 main3
 ########################################################
-OBJECTS = pr_afnd.o afnd_ofus.o transforma.o
+OBJECTS1 = main.o afnd.o transforma.o
+OBJECTS2 = main2.o afnd.o transforma.o
+OBJECTS3 = main3.o afnd.o transforma.o
 ########################################################
 
 all: $(EJS) clear
 
-pr_afnd: $(OBJECTS)
-	$(CC) $(CFLAGS) -o pr_afnd $(OBJECTS)
+main: $(OBJECTS1)
+	$(CC) $(CFLAGS) -o main $(OBJECTS1)
 
-pr_afnd.o: pr_afnd.c transforma.h afnd.h
-	$(CC) $(CFLAGS) -c pr_afnd.c
+main.o: main.c transforma.h afnd.h
+	$(CC) $(CFLAGS) -c main.c
 
-afnd_ofus.o: afnd_ofus.c afnd.h
-	$(CC) -c afnd_ofus.c
+main2: $(OBJECTS2)
+	$(CC) $(CFLAGS) -o main2 $(OBJECTS2)
+
+main2.o: main.c transforma.h afnd.h
+	$(CC) $(CFLAGS) -c main2.c
+
+main3: $(OBJECTS3)
+	$(CC) $(CFLAGS) -o main3 $(OBJECTS3)
+
+main3.o: main3.c transforma.h afnd.h
+	$(CC) $(CFLAGS) -c main3.c
+
+afnd.o: afnd.c afnd.h
+	$(CC) -c afnd.c
 
 transforma.o: transforma.c transforma.h afnd.h
 	$(CC) $(CFLAGS) -c transforma.c
@@ -24,7 +38,4 @@ clear:
 	rm -rf *.o
 
 clean:
-	rm -rf *.o $(EJS) pr_afnd
-
-runv:
-	valgrind --leak-check=full ./pr_afnd
+	rm -rf *.o $(EJS) main *.dot *.png

@@ -11,13 +11,13 @@ int main(int argc, char ** argv)
 	AFND * p_afnd;
 	AFND * afd;
 
-	p_afnd= AFNDNuevo("af11", 6, 3);
+	p_afnd= AFNDNuevo("af1", 6, 3);
 
 	AFNDInsertaSimbolo(p_afnd,"+");
 	AFNDInsertaSimbolo(p_afnd, "0");
 	AFNDInsertaSimbolo(p_afnd,".");
 
-	AFNDInsertaEstado(p_afnd, "q0",INICIAL);
+	AFNDInsertaEstado(p_afnd, "q0", INICIAL);
 	AFNDInsertaEstado(p_afnd, "q1", NORMAL);
 	AFNDInsertaEstado(p_afnd, "q2", NORMAL);
 	AFNDInsertaEstado(p_afnd, "q3", NORMAL);
