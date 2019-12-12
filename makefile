@@ -1,11 +1,12 @@
 ########################################################
 CC=gcc
 CFLAGS= -g -Wall -pedantic
-EJS = main main2 main3
+EJS = main main2 main3 main4
 ########################################################
 OBJECTS1 = main.o afnd.o transforma.o
 OBJECTS2 = main2.o afnd.o transforma.o
 OBJECTS3 = main3.o afnd.o transforma.o
+OBJECTS4 = main4.o afnd.o transforma.o minimiza.o
 ########################################################
 
 all: $(EJS) clear
@@ -28,11 +29,20 @@ main3: $(OBJECTS3)
 main3.o: main3.c transforma.h afnd.h
 	$(CC) $(CFLAGS) -c main3.c
 
+main4: $(OBJECTS4)
+	$(CC) $(CFLAGS) -o main4 $(OBJECTS4)
+
+main4.o: main4.c transforma.h minimiza.h afnd.h
+	$(CC) $(CFLAGS) -c main4.c
+
 afnd.o: afnd.c afnd.h
 	$(CC) -c afnd.c
 
 transforma.o: transforma.c transforma.h afnd.h
 	$(CC) $(CFLAGS) -c transforma.c
+
+minimiza.o: minimiza.c transforma.h afnd.h minimiza.h
+	$(CC) $(CFLAGS) -c minimiza.c
 
 clear:
 	rm -rf *.o

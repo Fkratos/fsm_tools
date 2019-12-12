@@ -1,28 +1,5 @@
 #include "transforma.h"
 
-#define MAX_NAME 256
-
-/**
- * Estructura intermedia de estado
- * En "componentes" se marcan con 1 los indices de los estados del afnd
- * contenidos en este estado del afd
- */
-struct Estado {
-	char *nombre;
-	int tipo;
-	int *componentes;
-};
-
-/**
- * Estructura intermedia de transicion
- */
-struct Transicion {
-	char *origen;
-	char *destino;
-	char *simbolo;
-};
-
-
 /**
  * Devuelve si existe un estado (dado su nombre) en la columna 'estados' de la tabla
  */
