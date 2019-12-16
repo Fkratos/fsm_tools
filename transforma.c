@@ -112,7 +112,7 @@ AFND * AFNDTransforma(AFND * afnd) {
 	i = AFNDIndiceEstadoInicial(afnd);
 	estados_afd[0].componentes = (int*) calloc(num_estados_afnd, sizeof(int));
 	estados_afd[0].componentes[i] = 1;
-	estados_afd[0].tipo = INICIAL;
+	estados_afd[0].tipo = AFNDTipoEstadoEn(afnd, i);
 
 	/*Miramos las transiciones lambda desde el inicial*/
 	for (j = 0; j < num_estados_afnd; j++) {
