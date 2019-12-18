@@ -36,21 +36,27 @@ char *nombreParaEstado(AFND *afnd, int *componentes, int num_estados_afnd) {
 /**
  * Inicializa un estado pasado por parametro dados su nombre y componentes
  */
-void crearEstado(struct Estado *estado, char *nombre, int *array_destinos,
-		int es_final, int num_estados_afd, int num_estados_afnd) {
+void crearEstado(AFND *afnd, struct Estado *estado, char *nombre, 
+		int *array_destinos, int num_estados_afd, int num_estados_afnd) {
 
-	int i;
+	int i, ini=0, fin=0;
 	(*estado).componentes = (int*) calloc(num_estados_afnd, sizeof(int));
-	for (i = 0; i < num_estados_afnd; i++)
+	for (i = 0; i < num_estados_afnd; i++) {
 		(*estado).componentes[i] = array_destinos[i];
+		if (array_destinos[i] == 1) {
+			if (AFNDTipoEstadoEn(afnd, i)==INICIAL) ini=1;
+			if (AFNDTipoEstadoEn(afnd, i)==FINAL) fin=1;
+			if (AFNDTipoEstadoEn(afnd, i)==INICIAL_Y_FINAL) ini=fin=1;
+		}
+	}
 
 	(*estado).nombre = (char *) malloc((strlen(nombre) + 1) * sizeof(char));
 	strcpy((*estado).nombre, nombre);
 
-	if (es_final)
-		(*estado).tipo = FINAL;
-	else
-		(*estado).tipo = NORMAL;
+	if (ini==1 && fin==1) (*estado).tipo = INICIAL_Y_FINAL;
+	else if (ini==1) (*estado).tipo = INICIAL;
+	else if (fin==1) (*estado).tipo = FINAL;
+	else (*estado).tipo = NORMAL;
 }
 
 
@@ -101,7 +107,7 @@ AFND * AFNDTransforma(AFND * afnd) {
 	struct Estado *estados_afd = NULL;
 	struct Transicion *transiciones_afd = NULL;
 	int num_estados_afd = 1, num_simbolos, num_trans_afd = 0, num_estados_afnd;
-	int i, j, k, l, estado, es_final = 0, tipo, hay_destinos = 0, *array_destinos;
+	int i, j, k, l, estado, tipo, hay_destinos = 0, *array_destinos;
 	char *nombre_temp = NULL;
 
 	num_estados_afnd = AFNDNumEstados(afnd);
@@ -136,7 +142,7 @@ AFND * AFNDTransforma(AFND * afnd) {
 	/*Por cada fila (estado) que de los que creamos en la tabla nueva*/
 	for (estado = 0; estado < num_estados_afd; estado++) {
 		/*Por cada columna (simbolo) de la tabla*/
-		for (j = 0, es_final = 0, hay_destinos = 0; j < num_simbolos; j++) {
+		for (j = 0, hay_destinos = 0; j < num_simbolos; j++) {
 			for (k = 0; k < num_estados_afnd; k++)
 				array_destinos[k] = 0;
 			/*Juntar los destinos a los que llego con ese simbolo desde cada sub-estado*/
@@ -147,15 +153,10 @@ AFND * AFNDTransforma(AFND * afnd) {
 							hay_destinos = 1;
 							/*Marco con 1 el indice de k en el array*/
 							array_destinos[k] = 1;
-							if (AFNDTipoEstadoEn(afnd, k) == INICIAL_Y_FINAL || AFNDTipoEstadoEn(afnd, k) == FINAL)
-								es_final = 1;
 							/*Marco tambien con 1 los destinos lambda desde k*/
 							for (l = 0; l < num_estados_afnd; l++) {
-								if (AFNDCierreLTransicionIJ(afnd, k, l) && k != l) {
+								if (AFNDCierreLTransicionIJ(afnd, k, l) && k != l)
 									array_destinos[l] = 1;
-									if (AFNDTipoEstadoEn(afnd, l) == INICIAL_Y_FINAL || AFNDTipoEstadoEn(afnd, l) == FINAL)
-										es_final = 1;
-								}
 							}
 						}
 					}
@@ -169,7 +170,7 @@ AFND * AFNDTransforma(AFND * afnd) {
 					if (!existe_en_afd(nombre_temp, estados_afd, num_estados_afd)) {
 						num_estados_afd++;
 						estados_afd = (struct Estado*) realloc(estados_afd, num_estados_afd * sizeof(struct Estado));
-						crearEstado(&estados_afd[num_estados_afd-1], nombre_temp, array_destinos, es_final, num_estados_afd, num_estados_afnd);
+						crearEstado(afnd, &estados_afd[num_estados_afd-1], nombre_temp, array_destinos, num_estados_afd, num_estados_afnd);
 					}
 					/*Creamos la transicion para el afd. Desde el estado 'estado', con 'j' voy al estado 'nombre_temp'*/
 					num_trans_afd++;

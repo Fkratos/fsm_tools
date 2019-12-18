@@ -33,8 +33,8 @@ int main(int argc, char ** argv) {
 
   p_afnd_min = AFNDMinimiza(p_afnd);
 
-  AFNDADot(p_afnd_min);
   AFNDImprime(stdout,p_afnd_min);
+  AFNDADot(p_afnd_min);
 
   AFNDElimina(p_afnd);
   AFNDElimina(p_afnd_min);
