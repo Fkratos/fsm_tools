@@ -1,9 +1,9 @@
 ########################################################
 CC=gcc
 CFLAGS= -g -Wall -pedantic
-EJS = main main2 main3 main4 main5 main6 main7
+EJS = main1 main2 main3 main4 main5 main6 main7
 ########################################################
-OBJECTS1 = main.o afnd.o transforma.o
+OBJECTS1 = main1.o afnd.o transforma.o
 OBJECTS2 = main2.o afnd.o transforma.o
 OBJECTS3 = main3.o afnd.o transforma.o
 OBJECTS4 = main4.o afnd.o transforma.o minimiza.o
@@ -16,16 +16,16 @@ all: $(EJS) clear
 
 ### TRANSFORMA TEST MAINS ###
 
-main: $(OBJECTS1)
-	$(CC) $(CFLAGS) -o main $(OBJECTS1)
+main1: $(OBJECTS1)
+	$(CC) $(CFLAGS) -o main1 $(OBJECTS1)
 
-main.o: main.c transforma.h afnd.h
-	$(CC) $(CFLAGS) -c main.c
+main1.o: main1.c transforma.h afnd.h
+	$(CC) $(CFLAGS) -c main1.c
 
 main2: $(OBJECTS2)
 	$(CC) $(CFLAGS) -o main2 $(OBJECTS2)
 
-main2.o: main.c transforma.h afnd.h
+main2.o: main2.c transforma.h afnd.h
 	$(CC) $(CFLAGS) -c main2.c
 
 main3: $(OBJECTS3)
@@ -70,6 +70,8 @@ transforma.o: transforma.c transforma.h afnd.h
 
 minimiza.o: minimiza.c transforma.h afnd.h minimiza.h
 	$(CC) $(CFLAGS) -c minimiza.c
+
+#####
 
 clear:
 	rm -rf *.o

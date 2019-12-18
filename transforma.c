@@ -183,7 +183,7 @@ AFND * AFNDTransforma(AFND * afnd) {
 	}
 
 	/*Creamos el automata finito e introducimos simbolos, estados y transiciones*/
-	afd = AFNDNuevo("AFD", num_estados_afd, num_simbolos);
+	afd = AFNDNuevo("afd", num_estados_afd, num_simbolos);
 	for (i = 0; i < num_simbolos; i++)
 		AFNDInsertaSimbolo(afd, AFNDSimboloEn(afnd, i));
 	for (i = 0; i < num_estados_afd; i++)

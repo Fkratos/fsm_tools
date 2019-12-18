@@ -4,6 +4,7 @@
  * Devuelve el estado al que se llega dado un origen y un simbolo
  */
 int indice_estado_destino(AFND *afd, int i_origen, int i_simbolo) {
+
 	int dest;
 	if (!afd || i_origen < 0 || i_simbolo < 0) {
 		printf("Error en indice_estado_destino\n");
@@ -13,7 +14,7 @@ int indice_estado_destino(AFND *afd, int i_origen, int i_simbolo) {
 		if (AFNDTransicionIndicesEstadoiSimboloEstadof(afd, i_origen, i_simbolo, dest))
 			return dest;
 	}
-return -1;
+	return -1;
 }
 
 
@@ -21,6 +22,7 @@ return -1;
  * Decide si t1 y t2 son tipos distintos (distingue 'finales' de 'no finales')
  */
 int son_tipos_distintos(int t1, int t2) {
+
 	if ((t1 == INICIAL && t2 == NORMAL) || (t2 == INICIAL && t1 == NORMAL)) return 0;
 	if ((t1 == INICIAL_Y_FINAL && t2 == FINAL) || (t2 == INICIAL_Y_FINAL && t1 == FINAL)) return 0;
 	if (t1 != t2) return 1;
@@ -32,6 +34,7 @@ int son_tipos_distintos(int t1, int t2) {
  * Imprime la tabla 'son_distinguibles' (para debug)
  */
 void print_distinguibles(AFND *afd, int **son_distinguibles) {
+	
 	int i, j;
 	printf("\n      ");
 	for (j = 0; j < AFNDNumEstados(afd); j++) {
@@ -131,7 +134,7 @@ AFND *AFNDMinimiza(AFND *afnd) {
 	}
 
 	/*Creamos un AF nuevo, insertamos los simbolos e insertamos los estados del array de Estados*/
-	afnuevo = AFNDNuevo("afm", num_estados_afmin, AFNDNumSimbolos(afmin));
+	afnuevo = AFNDNuevo("afdmin", num_estados_afmin, AFNDNumSimbolos(afmin));
 	for (i = 0; i < AFNDNumSimbolos(afmin); i++)
 		AFNDInsertaSimbolo(afnuevo, AFNDSimboloEn(afmin, i));
 	for (i = 0; i < num_estados_afmin; i++)

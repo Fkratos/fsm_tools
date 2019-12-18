@@ -6,7 +6,7 @@ int main(int argc, char ** argv) {
   AFND * p_afnd;
   AFND * p_afnd_min;
 
-  p_afnd = AFNDNuevo("af1",6,2);
+  p_afnd = AFNDNuevo("af5",6,2);
 
   AFNDInsertaSimbolo(p_afnd,"0");
   AFNDInsertaSimbolo(p_afnd,"1");
